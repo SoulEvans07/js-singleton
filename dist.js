@@ -1,5 +1,3 @@
-var _this = this;
-
 // npx babel single.js > dist.js && node dist.js
 
 const dis = a => console.log(a);
@@ -10,22 +8,26 @@ class SingletonInstance {
   }
 }
 
-const Singleton = {
-  init: dispatch => {
-    if (!_this._instance && dispatch) {
-      _this._instance = new SingletonInstance(dispatch);
+class Singleton {
+  static init(dispatch) {
+    if (!this._instance && dispatch) {
+      this._instance = new SingletonInstance(dispatch);
     }
 
-    return _this._instance;
-  },
-
-  get: () => {
-    if (_this._instance == null) throw new Error("Instance is not initialized!");
-    if (_this._instance.constructor.name !== "SingletonInstance") throw new Error("Instance is not typof " + SingletonInstance.name);
-
-    return _this._instance;
+    return this._instance;
   }
-};
+
+  static isInitalized() {
+    return this._instance != null;
+  }
+
+  static get() {
+    if (this._instance == null) throw new Error("Instance is not initialized!");
+    if (this._instance.constructor.name !== "SingletonInstance") throw new Error("Instance is not typof " + SingletonInstance.name);
+
+    return this._instance;
+  }
+}
 
 const main = function () {
   try {
@@ -33,6 +35,7 @@ const main = function () {
   } catch (e) {
     console.error("[error]", e.message);
   }
+
   Singleton.init(dis).dispatch("hello");
   Singleton.get().dispatch("world!");
 };

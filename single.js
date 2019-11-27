@@ -8,16 +8,20 @@ class SingletonInstance {
   }
 }
 
-const Singleton = {
-  init: (dispatch) => {
+class Singleton {
+  static init(dispatch) {
     if (!this._instance && dispatch) {
       this._instance = new SingletonInstance(dispatch);
     }
 
     return this._instance;
-  },
+  }
 
-  get: () => {
+  static isInitalized() {
+    return this._instance != null;
+  }
+
+  static get() {
     if (this._instance == null) throw new Error("Instance is not initialized!");
     if (this._instance.constructor.name !== "SingletonInstance") throw new Error("Instance is not typof " + SingletonInstance.name);
 
